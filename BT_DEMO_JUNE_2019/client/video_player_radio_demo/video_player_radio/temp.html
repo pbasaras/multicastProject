@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset='utf-8'>
+  <title>Video Player</title>
+  <script src="script.js"></script>
+  <script src="measurments.js"></script>
+  <script src="canvas/canvasjs-2.3.1/canvasjs.min.js"></script>
+  <script src="jquery.min.js"></script>
+  <script>
+      $(document).ready(function(){
+           $('input[type="radio"]').click(function(){
+                var scenario = $(this).val();				                       
+		$.ajax({
+                        url:"http://127.0.0.1:5000/_set_scenario",
+                        method: "GET",
+                        data: { "scenario" : scenario },
+                        success:function(data){
+                                $('#response').html(data);
+                        }
+                });
+          });
+      });
+      $(document).ready(function(){
+           $('input[type="button"]').click(function(){
+                var scenario = $(this).val();
+
+		if(scenario=="RESET")
+			$.ajax({
+                        	url:"http://127.0.0.1:5000/_set_scenario",
+                        	method: "GET",
+                        	data: { "scenario" : scenario },
+                        	success:function(data){
+                                	$('#response').html(data);
+                        	}
+                	});
+		}
+		if(scenario=="RESET_PROXY"){
+			$.ajax({
+                	        url:"http://192.168.76.1:4000/_restart_proxy",
+                	        method: "GET",
+                	        data: { "scenario" : scenario },
+                 	        success:function(data){
+                	                $('#response').html(data);
+                 	       }
+                	});
+		}
+		if(scenario=="PLAY"){
+			$.ajax({
+                	        url:"http://192.168.76.1:4000/_restart_proxy",
+                	        method: "GET",
+                	        data: { "scenario" : scenario },
+                 	        success:function(data){
+                	                $('#response').html(data);
+                 	       }
+                	});
+		}
+          });
+      });
+  </script>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+
+<table>
+<tbody>
+  <tr>
+    <td rowspan="0" width="37%"  style="padding:0 10px 0 10px;"> <!--border: 2px solid black;" -->
+
+	<form>
+	  &nbsp;&nbsp;&nbsp;
+	  <label class="radio-inline" for="home" >
+	    <input type="radio" name="scenario" id="home" value="home"><font color="black">Home</font>
+	  </label>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	  <label class="radio-inline" for="cell_center">
+	    <input type="radio" name="scenario" id="cell_center" value="cell_center"><font color="black">Cell Center</font>
+	  </label>;&nbsp;&nbsp;&nbsp;	&nbsp;&nbsp;&nbsp;&nbsp;
+	  <label class="radio-inline" for="cell_edge">
+	    <input type="radio" name="scenario" id="cell_edge" value="cell_edge"><font color="black">Cell Edge</font>
+	  </label>
+	  <label class="radio-inline" for="pub">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+	    <input type="radio" name="scenario" id="pub" value="pub"><font color="black">Pub</font>
+	  </label>
+	</form>
+
+
+	<img id="myBg" src="images/home4.png"  align="left" width="100%" height="400"</img>
+    </td>
+    <td width="33%" style="padding:0 10px 0 10px;">
+	<div align="center" width="100%">
+		<video id='video_bell' controls="controls" preload="none" poster="https://getvectorlogo.com/wp-content/uploads/2019/03/nokia-bell-labs-vector-logo.png" autoplay>
+	     		<source id='mp4' src="http://192.168.46.1:8090/streamwebm1" type='video/mp4'>
+	    	 	<p>Your user agent does not support the HTML5 Video element.</p>
+	    	</video>
+	</div>
+    </td>
+    <td width="30%" style="padding:0 10px 0 10px;">
+	<div id="BELL_solution" align="right" style="border:0px solid; height: 400px;"> </div>
+    </td>    
+  </tr>
+
+  
+  <tr>
+    <td width="33%" style="padding:0 10px 0 10px;"> 
+	<div align="center" width="100%">
+		<video id='video_bench' controls="controls" preload="none" poster="https://getvectorlogo.com/wp-content/uploads/2019/03/nokia-bell-labs-vector-logo.png" autoplay>
+	     		<source id='mp4' src="http://192.168.76.1:8090/streamwebm1" type='video/mp4'>
+	    	 	<p>Your user agent does not support the HTML5 Video element.</p>
+	    	</video>
+	</div>
+    </td>
+    <td  width="30%" style="padding:0 10px 0 10px;">
+	<div id="benchmark" alight="right" style="border:0px solid; height: 400px;"> </div>
+    </td>
+  </tr>
+</tbody>
+</table>
+
+
+<!--<input type="radio" name="scenario" id="scenario" value="reset"><font color="black">reset</font>-->
+<input id="clickMe" type="button" value="RESET"" />
+<input id="clickMe" type="button" value="RESET_PROXY"/>
+<input id="clickMe" type="button" value="PLAY"/>
+</body>
+</html>
+
